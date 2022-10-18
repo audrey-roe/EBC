@@ -42,6 +42,7 @@ def receive_message(payload):
                             'bot_id' : payload['entry'][0]['changes'][0]['value']['metadata']['phone_number_id'],
                             'message_id' : payload['entry'][0]['changes'][0]['value']['messages'][0]['id']
                             }
+           
 
             elif payload['entry'][0]['changes'][0]['value']['messages'][0]['type'] == 'interactive':
                 if payload['entry'][0]['changes'][0]['value']['messages'][0]['interactive']['type'] == 'list_reply':
@@ -62,20 +63,24 @@ def receive_message(payload):
                                 'bot_id' : payload['entry'][0]['changes'][0]['value']['metadata']['phone_number_id'],
                                 'message_id' : payload['entry'][0]['changes'][0]['value']['messages'][0]['id']
                                 }
-                # elif payload['entry'][0]['changes'][0]['value']['messages'][0]['interactive']['type'] == 'product_list':
-                #     reply = {
-                #                 "phone" : payload['entry'][0]['changes'][0]['value']['statuses'][0]['recipient_id'],
-                #                 "status" : payload['entry'][0]['changes'][0]['value']['statuses'][0]['status'],
-                #                 'bot_id' : payload['entry'][0]['changes'][0]['value']['metadata']['phone_number_id'],
-                #                 'message_id' : payload['entry'][0]['changes'][0]['value']['statuses'][0]['id']
-                #                 }
-                # elif payload['entry'][0]['changes'][0]['value']['messages'][0]['interactive']['type'] == 'product':
-                #     reply = {
-                #                 "phone" : payload['entry'][0]['changes'][0]['value']['statuses'][0]['recipient_id'],
-                #                 "status" : payload['entry'][0]['changes'][0]['value']['statuses'][0]['status'],
-                #                 'bot_id' : payload['entry'][0]['changes'][0]['value']['metadata']['phone_number_id'],
-                #                 'message_id' : payload['entry'][0]['changes'][0]['value']['statuses'][0]['id']
-                #                 }
+                                
+            elif payload['entry'][0]['changes'][0]['value']['messages'][0]['type'] == 'order':
+                if payload['entry'][0]['changes'][0]['value']['messages'][0]['interactive']['type'] == 'product_list':
+                        reply = {
+                                    "name" : payload['entry'][0]['changes'][0]['value']['contacts'][0]['profile']['name'] ,
+                                    "phone" : payload['entry'][0]['changes'][0]['value']['messages'][0]['from'],
+                                    "id" : payload['entry'][0]['id'],
+                                    "message" : payload['entry'][0]['changes'][0]['value']['messages'][0]['interactive']['button_reply']['id'],
+                                    'bot_id' : payload['entry'][0]['changes'][0]['value']['metadata']['phone_number_id'],
+                                    'message_id' : payload['entry'][0]['changes'][0]['value']['messages'][0]['id'],
+                                    'product_id' : payload['entry'][0]['changes'][0]['value']['messages'][0]['order']['product_items']['product_retailer_id'],
+                                    'quantity' : payload['entry'][0]['changes'][0]['value']['messages'][0]['order']['product_items']['quantity'],
+                                    'item_price' : payload['entry'][0]['changes'][0]['value']['messages'][0]['order']['product_items']['item_price'],
+                                    'currency' : payload['entry'][0]['changes'][0]['value']['messages'][0]['order']['product_items']['currency'],
+                                    'catalog_id' : payload['entry'][0]['changes'][0]['value']['messages'][0]['order']['catalog_id'],
+                                    'group_id' : payload['entry'][0]['changes'][0]['value']['messages'][0]['group_id'],
+                                    'text' : payload['entry'][0]['changes'][0]['value']['messages'][0]['order']['text'],
+                                }    
         else:
             return None
 
