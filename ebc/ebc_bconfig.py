@@ -153,6 +153,11 @@ class whatsappbot():
             },
             {
               "id": "5",
+              "title": "🤖 Share Chatbot",
+              "description": "Share the chatbot with others"
+            },
+            {
+              "id": "6",
               "title": "📲 Quit",
               "description": "Exit the chatbot"
             },
@@ -170,18 +175,25 @@ class whatsappbot():
             return self.sale()
         elif (str(self.reply)).lower() == 'purchase' or (str(self.reply)).lower() =='3':
             return self.purchase()
-        elif (str(self.reply)).lower() == 'chat_agent' or (str(self.reply)).lower() == '4':
+        elif (str(self.reply)).lower() == 'support' or (str(self.reply)).lower() == '4':
             return self.pre_chat_agent()
-        elif (str(self.reply)).lower() == 'q' or (str(self.reply)).lower() == 'quit' or(str(self.reply)).lower() == '5':
+        elif (str(self.reply)).lower() == 'share chatbot' or (str(self.reply)).lower() == 'share' or (str(self.reply)).lower() == '5':
+            return self.share_bot()
+        elif (str(self.reply)).lower() == 'q' or (str(self.reply)).lower() == 'quit' or(str(self.reply)).lower() == '6':
             return self.ending()
         else:
             return 1, 'I do not understand you.\nPlease kindly type in the corresponding number to the question or the option.', 'on-going', None
-        
+
+    def reminder(self):
+        #i'm guessing we have to put a celery worker to 
+        # trigger this function every 5 mins of no activity
+        return 'Hey, Coffee lover still waiting on your response'
+
     def catalogue(self):
         data = {
             "type": "product_list",
             "header": {
-                "type": "text",
+                "type": "interactive",
                 "text": "Catalogue"
             }}
         interactive = {
@@ -212,17 +224,15 @@ class whatsappbot():
         return 2, data, 'on-going', interactive
                               
 
-
-
-
     def catalogueNext(self):
         pass
+
 
     def sale(self):
         data = {
             "type": "product_list",
             "header": {
-                "type": "text",
+                "type": "interactive",
                 "text": "Catalogue"
             }}
         interactive = {
@@ -237,13 +247,23 @@ class whatsappbot():
                             "sections": 
                             [
                                 {
-                                "title": "Machinery on Sale!",             
+                                "title": "Machinery on Sale -  20%` discounts on all coffee machines offer lasts till the end of the month!",             
                                 "product_items": [
                                     { "product_retailer_id": "kpqyd0o9hu" },
                                     # { "product_retailer_id": "product-SKU-in-catalog" },
                                 ]},
                                 {
                                 "title": "Coffee Filters on Sale!",
+                                "product_items": [
+                                    { "product_retailer_id": "kpqyd0o9hu" }
+                                ]},
+                                {
+                                "title": "Coffee Mugs on Sale!",
+                                "product_items": [
+                                    { "product_retailer_id": "kpqyd0o9hu" }
+                                ]},
+                                {
+                                "title": "Coffee Mugs on Sale!",
                                 "product_items": [
                                     { "product_retailer_id": "kpqyd0o9hu" }
                                 ]},
@@ -261,8 +281,60 @@ class whatsappbot():
     def purchase(self):
         pass
     
-    def pre_chat_agent(self):
+    def post_purchase(self):
+
         pass
+
+
+
+    def pre_chat_agent(self):
+        data ={
+                        'header' :"",
+                        'body':"Hey 👋🏾 there, chat with our agents?",
+                        'type':'interactive'
+                        }
+
+        interactive = {
+            "button": "SELECT ITEM",
+            "sections": [
+        {
+          "title": "OPTIONS",
+          "rows": [
+            {
+              "id": "1",
+              "title": "🔍 Can`t find a product",
+              "description": "Browse our inventory"
+            },
+            {
+              "id": "2",
+              "title": "📍 Track Order",
+              "description": "Check out our products on sale"
+            },
+            {
+              "id": "3",
+              "title": "🧾 Payment Issues",
+              "description": "Check out your transaction history"
+            },
+            {
+              "id": "4",
+              "title": "🧐 Other Issues",
+              "description": "Chat with an agent to get some help with a customer care representative"
+            },
+            {
+              "id": "5",
+              "title": "📲 Menu",
+              "description": "Go to the main menu"
+            },
+            {
+              "id": "6",
+              "title": "😮‍💨 Quit",
+              "description": "Exit the chatbot"
+            },
+          ]
+        }
+      ]
+        }
+        return 31, data, 'on-going', interactive
 
     def pre_chat_agent_next(self):
         
@@ -274,9 +346,9 @@ class whatsappbot():
             return self.chat_agent_q()
         elif (str(self.reply)).lower() == 'Other Issues' or (str(self.reply)).lower() == '4':
             return self.chat_agent_q()
-        elif (str(self.reply)).lower() == 'menu' or (str(self.reply)).lower() == 'main menu':
+        elif (str(self.reply)).lower() == 'Menu' or (str(self.reply)).lower() == 'main menu' or (str(self.reply)).lower() == '5':
             return self.welcome()
-        elif (str(self.reply)).lower() == 'q' or (str(self.reply)).lower() == 'quit' or(str(self.reply)).lower() == '5':
+        elif (str(self.reply)).lower() == 'q' or (str(self.reply)).lower() == 'quit' or(str(self.reply)).lower() == '6':
             return self.ending()
         else:
             return 32,'I do not understand you.\nPlease kindly type in the corresponding number to aid us in connecting you to right agent', 'on-going', None
@@ -291,19 +363,27 @@ class whatsappbot():
                                 "type": "reply",
                                 "reply": {
                                     "id": "1",
-                                    "title": "Sure why not🥹!"
+                                    "title": "Sure why not! 🥹"
                                         }
                                         },
                                 {
                                 "type": "reply",
                                 "reply": {
                                     "id": "0",
-                                    "title": "Nope.😒"
+                                    "title": "Nope. 😒"
                                 }
                                 }
                                 ]}
         return 26, data, 'on-going', interactive
-
+    
+    def chat_agent_q_next(self):
+        if (str(self.reply)).lower() =='1':
+            return self.chat_agent()
+        elif (str(self.reply)).lower() == '0':
+            return 26, 'Thank you for contacting us', 'complete', None
+        else:
+            return 26, "Didn't quite get you there, please try again", 'on-going', self.chat_agent_q()
+    
     def chat_agent(self):
         data = """Hold-on as we connect you to an agent"""
         return 36, data, 'on-going', None
@@ -325,14 +405,14 @@ class whatsappbot():
                                 "type": "reply",
                                 "reply": {
                                     "id": "1",
-                                    "title": "YES!"
+                                    "title": "Yes!"
                                         }
                                         },
                                 {
                                 "type": "reply",
                                 "reply": {
                                     "id": "0",
-                                    "title": "NO"
+                                    "title": "No"
                                 }
                                 }
                                 ]}
@@ -344,4 +424,4 @@ class whatsappbot():
         elif (str(self.reply)).lower() == '0':
             return 26, 'Thank you for shopping with us', 'complete', None
         else:
-            return 26, "Didn't quite get you ther but u know what i will assume that's a NO! bye bye.", 'complete', None
+            return 26, "Didn't quite get you there.", 'on-going', self.ending()
