@@ -6,7 +6,7 @@ This is used for handling the data from the facebook graph API
 
 import requests
 
-AUTH ='Bearer ' + 'EAAILGMK3sScBAFn8DQmZAkZCL9wRx4mS5w9gaIN9R413px7nCkvOKEkzY7WArnwmsXI2uyP67eHTgVZATBZCZCUp0zE4PV2nW0RMcBtD0Q3m5GY12NQLAwAQffdVAX7PLt7DJ6E8FZAb7fXM7j3ZBkuv0UoTjzHUhPOEcTMDLie4ecYWbUcNyCy8E9itOCor8Diy6c4r2x79AZDZD'
+AUTH ='Bearer ' + 'EAAJRq1e1wC4BAGfyaKKeAWWEZAHXVoClfFCoUaLNNxtZCl1QkWTlEaXyQ7v80TpaaroWxWZAzZB6o9uHZAEhnXHvOcUQbhyCgjKkyjhmgMEnMbVeaRuOPsy5U4CGTSK8ZCZBDMOFR6CoisaPjrRFaZCFq9CVKaMiSOCnMVpoTiradTkRR85OjPzZCBDMbiMwyZC7OaRAnNucRNBMFYCs8VXSZCZC'
 
 
 class whatsapp:
@@ -59,7 +59,7 @@ class whatsapp:
             "text": self.message['body']
             },
             "footer": {
-            "text": "Everything But Coffee"
+            "text": self.message['footer']
             },
             "action":self.interactive
         }

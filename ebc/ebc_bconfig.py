@@ -191,12 +191,15 @@ class whatsappbot():
 
     def catalogue(self):
         data = {
-            "type": "product_list",
-            "header": {
-                "type": "interactive",
-                "text": "Catalogue"
-            }}
+            
+            }
         interactive = {
+                    "header": {
+                        "type": "interactive",
+                        "text": "Catalogue"
+                    },
+                    "type": "product_list",
+
                     "body":{
                         "text": "Explore our fine range of coffee accessories"
                     },
@@ -230,20 +233,23 @@ class whatsappbot():
 
     def sale(self):
         data = {
-            "type": "product_list",
-            "header": {
-                "type": "interactive",
-                "text": "Catalogue"
-            }}
+            
+            
+        }
         interactive = {
-                    "body":{
-                        "text": "Explore our fine range of coffee accessories"
+                    "header": {
+                        "type": "interactive",
+                        "text": "Catalogue"
                     },
+                    "type": "product_list",
+                    "body": {
+                        "text": "Explore our fine range of coffee accessories",
+                    },  
                     "footer":{
                         "text": "Everything But Coffee On Sale!"
                     },
                     "action":
-                           { "catalog_id":"1239386806600403",
+                           { "catalog_id" : "1239386806600403",
                             "sections": 
                             [
                                 {

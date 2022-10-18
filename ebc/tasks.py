@@ -62,6 +62,13 @@ def receive_message(payload):
                                 'bot_id' : payload['entry'][0]['changes'][0]['value']['metadata']['phone_number_id'],
                                 'message_id' : payload['entry'][0]['changes'][0]['value']['messages'][0]['id']
                                 }
+                elif payload['entry'][0]['changes'][0]['value']['messages'][0]['interactive']['type'] == 'product_list':
+                    reply = {
+                                "phone" : payload['entry'][0]['changes'][0]['value']['statuses'][0]['recipient_id'],
+                                "status" : payload['entry'][0]['changes'][0]['value']['statuses'][0]['status'],
+                                'bot_id' : payload['entry'][0]['changes'][0]['value']['metadata']['phone_number_id'],
+                                'message_id' : payload['entry'][0]['changes'][0]['value']['statuses'][0]['id']
+                                }
         else:
             return None
 
