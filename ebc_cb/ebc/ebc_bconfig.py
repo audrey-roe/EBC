@@ -1,122 +1,66 @@
+import requests
+from .models import payment, product, cart, customer
+
 class whatsappbot():    
     def __init__(self, **kwargs):
         self.id = kwargs.get('id', None)
         self.reply = kwargs.get('reply', None)
 
-
     def message_call(self):
         if self.id == 0:
-            id, response, status, interactive = self.welcome()
+            id, response, status, interactive = self.welcome()#self.cart()
             return id, response, status, interactive
         elif self.id == 1:
             id, response, status, interactive = self.welcome_next()
             return id, response, status, interactive
         elif self.id == 2:
-            id, response, status, interactive = self.my_offers_next()
+            id, response, status, interactive = self.catalogueNext()
             return id, response, status, interactive
         elif self.id == 3:
-            id, response, status, interactive = self.offer_300daily_next()
+            id, response, status, interactive = self.discounts_next()
             return id, response, status, interactive    
         elif self.id == 4:
-            id, response, status, interactive = self.offer_300daily_renewal_next()
+            id, response, status, interactive = self.place_order_next()
             return id, response, status, interactive
         elif self.id == 5:
-            id, response, status, interactive = self.offer_500daily_next()
+            id, response, status, interactive = self.news_letter_next()
             return id, response, status, interactive
         elif self.id == 6:
-            id, response, status, interactive = self.offer_500daily_renewal_next()
-            return id, response, status, interactive
-        elif self.id == 7:
-            id, response, status, interactive = self.offer_1500weekly_next()
-            return id, response, status, interactive
-        elif self.id == 8:
-            id, response, status, interactive = self.offer_1500weekly_renewal_next()
-            return id, response, status, interactive
-        elif self.id == 9:
-            id, response, status, interactive = self.offer_500bimonthly_next()
-            return id, response, status, interactive
-        elif self.id == 10:
-            id, response, status, interactive = self.offer_500bimonthly_renewal_next()
-            return id, response, status, interactive
-        elif self.id == 11:
-            id, response, status, interactive = self.offer_1000monthly_next()
-            return id, response, status, interactive
-        elif self.id == 12:
-            id, response, status, interactive = self.offer_1000monthly_renewal_next()
-            return id, response, status, interactive    
-        elif self.id == 13:
-            id, response, status, interactive = self.offer_1200monthly_next()
-            return id, response, status, interactive
-        elif self.id == 14:
-            id, response, status, interactive = self.offer_1200monthly_renewal_next()
-            return id, response, status, interactive
-        elif self.id == 15:
-            id, response, status, interactive = self.offer_1500monthly_next()
-            return id, response, status, interactive
-        elif self.id == 16:
-            id, response, status, interactive = self.offer_1500monthly_renewal_next()
-            return id, response, status, interactive
-        elif self.id == 17:
-            id, response, status, interactive = self.borrow_airtime_data_next()
-            return id, response, status, interactive
-        elif self.id == 18:
-            id, response, status, interactive = self.social_plans_next()
-            return id, response, status, interactive
-        elif self.id == 19:
-            id, response, status, interactive = self.social_bundle_next()
-            return id, response, status, interactive
-        elif self.id == 20:
-            id, response, status, interactive = self.plus_bundles_next()
-            return id, response, status, interactive
-        elif self.id == 21:
-            id, response, status, interactive = self.opera_bundles_next()
-            return id, response, status, interactive
-        elif self.id == 22:
-            id, response, status, interactive = self.instagram_bundles_next()
-            return id, response, status, interactive
-        elif self.id == 23:
-            id, response, status, interactive = self.streaming_bundle_next()
-            return id, response, status, interactive
-        elif self.id == 24:
-            id, response, status, interactive = self.data_plans_next()
-            return id, response, status, interactive
-        elif self.id == 25:
-            id, response, status, interactive = self.daily_bund_next()
-            return id, response, status, interactive
-        elif self.id == 26:
             id, response, status, interactive = self.ending_next()
             return id, response, status, interactive
-        elif self.id == 27:
-            id, response, status, interactive = self.weekly_bund_next()
+        elif self.id == 7:
+            id, response, status, interactive = self.confirm_email_next()
             return id, response, status, interactive
-        elif self.id == 28:
-            id, response, status, interactive = self.monthly_bund_next()
+        elif self.id == 8:
+            id, response, status, interactive = self.add_to_cart_next()
             return id, response, status, interactive
-        elif self.id == 29:
-            id, response, status, interactive = self.data_pp_next()
+        elif self.id == 9:
+            id, response, status, interactive = self.add_to_cart_next_next_next()
             return id, response, status, interactive
-        elif self.id == 30:
-            id, response, status, interactive = self.mega_bund_next()
+        elif self.id == 10:
+            id, response, status, interactive = self.details_next()
             return id, response, status, interactive
-        elif self.id == 31:
-            id, response, status, interactive = self.binge_plans_next()
+        elif self.id == 11:
+            id, response, status, interactive = self.add_customer_initiate()
             return id, response, status, interactive
-        elif self.id == 32:
-            id, response, status, interactive = self.big_data_next()
+        elif self.id == 12:
+            id, response, status, interactive = self.add_customer_next_email()
             return id, response, status, interactive
-        elif self.id == 33:
-            id, response, status, interactive = self.always_on_next()
+        elif self.id == 13:
+            id, response, status, interactive = self.add_customer_next_address()
             return id, response, status, interactive
-        elif self.id == 34:
-            id, response, status, interactive = self.faq_next()
+        elif self.id == 14:
+            id, response, status, interactive = self.confirm_details()
             return id, response, status, interactive
-        elif self.id == 35:
-            id, response, status, interactive = self.recharge_next()
-            return id, response, status, interactive
-        elif self.id == 36:
-            id, response, status, interactive = self.chat_agent_next()
+        elif self.id == 15:
+            id, response, status, interactive = self.confirm_details_next()
             return id, response, status, interactive
 
+    def cart(self):
+        for products in product.objects.all():
+            if products.id == self.reply:
+                return self.add_to_cart()
+        return self.welcome()
 
     def welcome(self):#welcome
         welcome_string ={
@@ -230,8 +174,7 @@ class whatsappbot():
     def catalogueNext(self):
         pass
 
-
-    def sale(self):
+    def discounts(self):
         data = {
             "header": {
                 "type": "interactive",
@@ -279,8 +222,7 @@ class whatsappbot():
                         ]
                         },
                         
-        return 2, data, 'on-going', interactive
-                              
+        return 2, data, 'on-going', interactive                          
 
     def purchase(self):
         pass
@@ -289,7 +231,177 @@ class whatsappbot():
 
         pass
 
+    def add_to_cart(self):
+        if not customer.objects.get(customer_no = self.number).customer_email == 'none':
+            cart.objects.create(customer = customer.objects.get(customer_no = self.number), product = product.objects.get(id = self.reply)).save()
+            data = {
+                    'header' :"ADD ITEM TO CART",
+                    'body': f"Do you want to add the item with product ID: {str(product.objects.get(id = self.reply))} to your cart.",
+                    'type':'button'
+                    }
+            interactive = {"buttons": [{
+                                    "type": "reply",
+                                    "reply": {
+                                        "id": "1",
+                                        "title": "Yes!"
+                                            }
+                                            },
+                                    {
+                                    "type": "reply",
+                                    "reply": {
+                                        "id": "0",
+                                        "title": "No"
+                                    }
+                                    }
+                                    ]}
+            return 8, data, 'on-going', interactive
+        else:
+            cart.objects.create(customer = customer.objects.get(customer_no = self.number), product = product.objects.get(id = self.reply)).save()
+            data = {
+                    'header' :"Add item to cart",
+                    'body': f"To add the item: {str(product.objects.get(id = self.reply))} to your cart you need to Sign Up.",
+                    'type':'button'
+                    }
+            interactive = {"buttons": [{
+                                    "type": "reply",
+                                    "reply": {
+                                        "id": "1",
+                                        "title": "Sign Up"
+                                            }
+                                            },
+                                    {
+                                    "type": "reply",
+                                    "reply": {
+                                        "id": "0",
+                                        "title": "Delete Cart"
+                                    }
+                                    }
+                                    ]}
+            return 11, data, 'on-going', interactive
 
+    def add_customer_initiate(self):
+        if (str(self.reply)).lower() =='1':
+            return self.add_customer()
+        elif (str(self.reply)).lower() == '0':
+            cart.objects.filter(customer = customer.objects.get(customer_no = self.number)).last().delete            
+            return self.welcome()
+
+    def add_customer(self):
+        data = f'Please provide all the information and your details will be linked to this number {self.number}.\n Can I get your full name?'
+        return 12, data, 'on-going', None
+
+    def add_customer_next_email(self):
+        data = f"Your email?"
+        change = customer.objects.get(customer_no = self.number)
+        change.customer_name = self.reply
+        change.save()
+        return 13, data,  'on-going', None
+    
+    def add_customer_next_address(self):
+        data = f"One last thing, can I get your address too?"
+        change = customer.objects.get(customer_no = self.number)
+        change.customer_email = self.reply
+        change.save()
+        return 14, data,  'on-going', None
+
+    def confirm_details(self):
+        change = customer.objects.get(customer_no = self.number)
+        change.customer_address = self.reply
+        change.save()
+        data = {
+            'header':'Confirm details',
+            'body':f'Wonderful! Please can you confirm the details listed below are correct.\n name: {change.customer_name}.\n email: {change.customer_email}.\n number: {change.customer_no}.\n address: {change.customer_address}',
+            'type':'button'
+            }
+        interactive = {"buttons": [{
+                                "type": "reply",
+                                "reply": {
+                                    "id": "1",
+                                    "title": "Confirm"
+                                        }
+                                        },
+                                {
+                                "type": "reply",
+                                "reply": {
+                                    "id": "0",
+                                    "title": "Change"
+                                }
+                                }
+                                ]}
+        return 15, data,  'on-going', interactive
+
+    def confirm_details_next(self):
+        if (str(self.reply)).lower() =='1':
+            return self.add_to_cart_next_next()
+        elif (str(self.reply)).lower() == '0':
+            cart.objects.filter(customer = customer.objects.get(customer_no = self.number)).last().delete            
+            return self.add_customer()
+
+    def add_to_cart_next(self):
+        if (str(self.reply)).lower() =='1':
+            return self.add_to_cart_next_next()
+        elif (str(self.reply)).lower() == '0':
+            cart.objects.filter(customer = customer.objects.get(customer_no = self.number)).last().delete            
+            return self.welcome()
+
+    def add_to_cart_next_next(self):
+        data = {
+                'header' :"Order now",
+                'body': "Complete your order or continue shopping.",
+                'type':'button'
+                }
+        interactive = {"buttons": [{
+                                "type": "reply",
+                                "reply": {
+                                    "id": "1",
+                                    "title": "Complete order"
+                                        }
+                                        },
+                                {
+                                "type": "reply",
+                                "reply": {
+                                    "id": "0",
+                                    "title": "Continue spending"
+                                }
+                                }
+                                ]}
+        return 9, data, 'on-going', interactive
+    
+    def add_to_cart_next_next_next(self):
+        payment.objects.create(customer = customer.objects.get(customer_no = self.number))
+        if (str(self.reply)).lower() =='1':
+            auth_pay = "sk_live_c8b29dedc59450ce1837b29c5ffe687b62c275ea"
+            cust = payment.objects.filter(customer = customer.objects.get(customer_no = self.number)).last()
+            datum = requests.request('post', 'https://api.paystack.co/transaction/initialize', headers = {"Authorization": f"Bearer {auth_pay}","Content-Type" : "application/json"}, json={"email": cust.customer.customer_email, "amount": cust.total_amount})
+            link = datum.json()['data']['authorization_url']
+            data = f"You're buying items:{cust.items} at the price of ₦{str(int(cust.total_price)/100)} .\npayment link: {link}.\n Please type done when you have completed the transaction "
+            return 10, data, "on-going", None
+
+        elif (str(self.reply)).lower() == '0':
+            return self.browse_catalogue()
+    
+    def details_next(self):
+        data = {
+                'header' :"Almost Done",
+                'body':"Hooray you have completed the transaction.\n We will update you here on the progress of your purchase.\n Is there any other thing I can assist you with?",
+                'type':'button'
+                }
+        interactive = {"buttons": [{
+                                "type": "reply",
+                                "reply": {
+                                    "id": "1",
+                                    "title": "Yes!"
+                                        }
+                                        },
+                                {
+                                "type": "reply",
+                                "reply": {
+                                    "id": "0",
+                                    "title": "No"
+                                }
+                                }
+                                ]}
+        return 6, data, 'on-going', interactive
 
     def pre_chat_agent(self):
         data ={
@@ -422,6 +534,7 @@ class whatsappbot():
                                 ]}
 
         return 26, data, 'on-going', interactive
+    
     def ending_next(self):
         if (str(self.reply)).lower() =='1':
             return self.welcome()
