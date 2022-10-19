@@ -191,23 +191,23 @@ class whatsappbot():
 
     def catalogue(self):
         data = {
-            
+           
+            "header": {
+                "type": "interactive",
+                "text": "Catalogue"
+            },
+            "type": "product_list",
+
+            "body":{
+                "text": "Explore our fine range of coffee accessories"
+            },
+            "footer":{
+                "text": "Everything But Coffee"
+            },
             }
         interactive = {
-                    "header": {
-                        "type": "interactive",
-                        "text": "Catalogue"
-                    },
-                    "type": "product_list",
-
-                    "body":{
-                        "text": "Explore our fine range of coffee accessories"
-                    },
-                    "footer":{
-                        "text": "Everything But Coffee"
-                    },
-                    "action":
-                           { "catalog_id":"1239386806600403",
+                    
+                     "catalog_id":"1239386806600403",
                             "sections": 
                             [
                                 {
@@ -223,7 +223,7 @@ class whatsappbot():
                                 ]},
                         ]
                         },
-                        }, 
+                        
         return 2, data, 'on-going', interactive
                               
 
@@ -233,23 +233,21 @@ class whatsappbot():
 
     def sale(self):
         data = {
-            
+            "header": {
+                "type": "interactive",
+                "text": "Catalogue"
+            },
+            "type": "product_list",
+            "body": {
+                "text": "Explore our fine range of coffee accessories",
+            },  
+            "footer":{
+                "text": "Everything But Coffee On Sale!"
+            },
             
         }
         interactive = {
-                    "header": {
-                        "type": "interactive",
-                        "text": "Catalogue"
-                    },
-                    "type": "product_list",
-                    "body": {
-                        "text": "Explore our fine range of coffee accessories",
-                    },  
-                    "footer":{
-                        "text": "Everything But Coffee On Sale!"
-                    },
-                    "action":
-                           { "catalog_id" : "1239386806600403",
+                   "catalog_id" : "1239386806600403",
                             "sections": 
                             [
                                 {
@@ -280,7 +278,7 @@ class whatsappbot():
                                 ]},
                         ]
                         },
-                        }, 
+                        
         return 2, data, 'on-going', interactive
                               
 
